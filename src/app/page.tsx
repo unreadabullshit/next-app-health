@@ -1,30 +1,45 @@
 'use client';
 
 import { Dropzone, DropzoneContent, DropzoneEmptyState } from '@/components/ui/kibo-ui/dropzone';
+import { dropValidation } from '@/lib/utils';
 import { useState } from 'react';
+import { FileRejection } from 'react-dropzone';
 
 export default function Home() {
-	const [files, setFiles] = useState<File[] | undefined>();
-
-	const handleDrop = (files: File[]) => {
-		console.info(files);
-		setFiles(files);
-	};
+	const [acceptedFiles, setAcceptedFiles] = useState<File[] | undefined>();
+	const [rejectedFiles, setRejectedFiles] = useState<FileRejection[] | undefined>();
 
 	return (
 		<div>
-			<div className='flex h-screen w-full items-center justify-center bg-secondary p-8'>
+			<div className='flex h-auto w-[400px] items-center justify-center p-8'>
 				<Dropzone
-					onDrop={handleDrop}
-					src={files}
+					src={acceptedFiles}
+					onDropAccepted={(accepted) => {
+						setAcceptedFiles(accepted);
+					}}
+					onDropRejected={(rejected) => {
+						setRejectedFiles(rejected);
+					}}
 					multiple
 					maxFiles={Infinity}
-					onError={console.error}
+					noClick
+					noKeyboard
+					preventDropOnDocument
+					validator={dropValidation}
 				>
 					<DropzoneEmptyState />
-					<DropzoneContent />
+					<DropzoneContent>
+						{acceptedFiles && <span>{acceptedFiles.length} files accepted</span>}
+						{rejectedFiles && <span>{rejectedFiles.length} files rejected.</span>}
+					</DropzoneContent>
 				</Dropzone>
 			</div>
+
+			<ol>
+				{acceptedFiles?.map((file) => (
+					<li key={file.path}>{file.path}</li>
+				))}
+			</ol>
 		</div>
 	);
 }

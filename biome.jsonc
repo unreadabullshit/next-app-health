@@ -16,7 +16,7 @@
 			"recommended": false,
 			"nursery": {
 				"useSortedClasses": {
-					"fix": "unsafe",
+					"fix": "safe",
 					"level":"warn",
 					"options": {
 						"attributes": [],
