@@ -94,13 +94,13 @@ export const FileUpload = ({ accepted, rejected, className, ...props }: Dropzone
 										initial={{ opacity: 0 }}
 										animate={{ opacity: 1 }}
 										layout
-										className='rounded-md bg-gray-100 px-1 py-0.5 dark:bg-neutral-800 '
+										className='rounded-md bg-red-50 px-1 py-0.5 text-red-400 dark:bg-neutral-800 '
 									>
 										{rejected?.length} files ignored
 									</motion.p>
 
 									<motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} layout>
-										lorem ipsum
+										ignore rules
 									</motion.p>
 								</div>
 							</motion.div>
