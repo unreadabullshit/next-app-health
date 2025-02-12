@@ -1,4 +1,5 @@
 'use client';
+import { upload } from '@/actions/index';
 import { FileUpload } from '@/components/ui/file-upload';
 import { dropValidation, renderBytes } from '@/lib/utils';
 import { ChevronDown, ChevronRight, File, Folder } from 'lucide-react';
@@ -19,7 +20,6 @@ export default function Home() {
 					}}
 					onDropRejected={(rejected) => {
 						console.info(rejected.length);
-
 						setRejectedFiles(rejected);
 					}}
 					className='h-full w-full'
@@ -33,7 +33,19 @@ export default function Home() {
 					preventDropOnDocument
 				/>
 				<div>dropped files stats or warnings about privacy idk</div>
-				<button className='py-8'>submit</button>
+				<button
+					className='py-8'
+					onClick={() =>
+						upload(
+							(acceptedFiles || []).map((_f) => ({
+								_f: _f,
+								_p: _f.path,
+							}))
+						)
+					}
+				>
+					submit
+				</button>
 			</div>
 			<div className='flex flex-1 flex-col'>
 				<FileTreeViewer files={acceptedFiles || []} />
