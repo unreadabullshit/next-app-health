@@ -6,66 +6,90 @@
 //   group: unknown[]
 // }
 
-const next_route_files = [
-	'layout',
-	'loading',
-	'not-found',
-	'error',
-	'global-error',
-	'route',
-	'template',
-	'default',
-	'page',
+const next_route_filenames = [
+	{ filename: 'layout', supports: ['js', 'jsx', 'tsx'] },
+	{ filename: 'loading', supports: ['js', 'jsx', 'tsx'] },
+	{ filename: 'not-found', supports: ['js', 'jsx', 'tsx'] },
+	{ filename: 'error', supports: ['js', 'jsx', 'tsx'] },
+	{ filename: 'global-error', supports: ['js', 'jsx', 'tsx'] },
+	{ filename: 'route', supports: ['js', 'ts'] },
+	{ filename: 'template', supports: ['js', 'jsx', 'tsx'] },
+	{ filename: 'default', supports: ['js', 'jsx', 'tsx'] },
+	{ filename: 'page', supports: ['js', 'jsx', 'tsx'] },
 ] as const;
 
-export const mapRoutes = (files: { _p: string; _f: File }[]) => {
-	const routes: {
-		original_path: string;
-		route_path: string;
-		url_path: string;
-		ignored: boolean;
-		route_file: (typeof next_route_files)[number][];
-	}[] = [];
+export function mapRoutes(files: { _p: string; _f: File }[]) {
+	const routes: unknown[] = [];
 
 	for (const file of files) {
 		const parsed = parseRoutePath(file._p);
 
-		console.info(parsed)
+		if (parsed) {
+			console.info(parsed);
+		}
 	}
 
 	return routes;
-};
+}
 
-const parseRoutePath = (path: string) => {
-	const appIndex = path.indexOf('/app/');
+function parseRoutePath(path: string) {
+	const app_index = path.indexOf('/app/');
 
-	if (appIndex === -1) {
-		return null;
-	}
+	let ignored_file = false;
+	let ignored_path = false;
 
-	const afterApp = path.slice(appIndex + 5); // +5 to skip '/app/'
-	const pathParts = afterApp.split('/');
-	const filename = pathParts.pop() || '';
-	const pathInsideAppDir = `/${pathParts.join('/')}${pathParts.length ? '/' : ''}`;
+	if (app_index === -1) return null;
 
-	const urlPath = pathParts.reduce((acc, act) => {
+	const path_from_app = path.slice(app_index + 5); // +5 to skip '/app/'
+	const path_after_app_parts = path_from_app.split('/'); // path rest from /app/ + filename
+	const filename = path_after_app_parts.pop() || '';
+	const path_after_app = `/${path_after_app_parts.join('/')}`; // path rest from /app/ - filename
+	const url_path = path_after_app_parts.reduce((acc, act) => {
+		if (act.startsWith('_')) {
+			ignored_path = true;
+		}
+
+		// filtering off "(group)" from url
 		if (/^\(.*\)$/.test(act)) {
 			return acc;
 		}
 
+		if (acc.endsWith('/')) {
+			return `${acc}${act}`;
+		}
+
 		return `${acc}/${act}`;
-	}, '');
+	}, '/');
+	const splitted_filename = filename.split('.');
+
+	if (splitted_filename.length !== 2) return null;
+
+	const have_next_router_filename = next_route_filenames.some((p, _i, _arr) => {
+		if (splitted_filename[0].startsWith('_')) {
+			ignored_file = true;
+
+			return (
+				// @ts-expect-error
+				splitted_filename[0].slice(1) === p.filename && p.supports.includes(splitted_filename[1])
+			);
+		}
+
+		// @ts-expect-error
+		return splitted_filename[0] === p.filename && p.supports.includes(splitted_filename[1]);
+	});
+
+	if (!have_next_router_filename) return null;
 
 	return {
 		route: {
 			original: path,
-			path: pathInsideAppDir,
-			url: urlPath,
-			ignored: pathParts.some((part) => part.startsWith('_')),
+			path: path_after_app,
+			url: url_path,
+			ignored: ignored_path,
 		},
 		file: {
 			name: filename,
-			ignored: filename.startsWith('_'),
+			ignored: ignored_file,
 		},
 	};
-};
+}

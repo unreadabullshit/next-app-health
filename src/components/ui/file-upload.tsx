@@ -3,7 +3,7 @@ import { IconUpload } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 import { DropzoneOptions, FileRejection, useDropzone } from 'react-dropzone';
 
-const mainVariant = {
+const main_variant = {
 	initial: {
 		x: 0,
 		y: 0,
@@ -15,7 +15,7 @@ const mainVariant = {
 	},
 };
 
-const secondaryVariant = {
+const secondary_variant = {
 	initial: {
 		opacity: 0,
 	},
@@ -108,7 +108,7 @@ export const FileUpload = ({ accepted, rejected, className, ...props }: Dropzone
 						{(accepted?.length ?? 0) + (rejected?.length ?? 0) === 0 && (
 							<motion.div
 								layoutId='file-upload'
-								variants={mainVariant}
+								variants={main_variant}
 								transition={{
 									type: 'spring',
 									stiffness: 300,
@@ -135,7 +135,7 @@ export const FileUpload = ({ accepted, rejected, className, ...props }: Dropzone
 						)}
 						{(accepted?.length ?? 0) + (rejected?.length ?? 0) === 0 && (
 							<motion.div
-								variants={secondaryVariant}
+								variants={secondary_variant}
 								className='absolute inset-0 z-30 mx-auto mt-4 flex h-32 w-full max-w-[8rem] items-center justify-center rounded-md border border-sky-400 border-dashed bg-transparent opacity-0'
 							/>
 						)}

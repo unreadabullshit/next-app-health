@@ -43,12 +43,12 @@ export const dropValidation = (file: FileWithPath) => {
 export const renderBytes = (bytes: number) => {
 	const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 	let size = bytes;
-	let unitIndex = 0;
+	let unit_index = 0;
 
-	while (size >= 1024 && unitIndex < units.length - 1) {
+	while (size >= 1024 && unit_index < units.length - 1) {
 		size /= 1024;
-		unitIndex++;
+		unit_index++;
 	}
 
-	return `${size.toFixed(2)}${units[unitIndex]}`;
+	return `${size.toFixed(2)}${units[unit_index]}`;
 };

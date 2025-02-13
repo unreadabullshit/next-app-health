@@ -51,7 +51,26 @@
 					"options": {
 						"requireAscii": true,
 						"enumMemberCase": "CONSTANT_CASE",
-						"conventions": []
+						"conventions": [
+							{
+								"selector": {
+									"kind": "objectLiteralMember"
+								},
+								"formats": ["snake_case"]
+							},
+							{
+								"selector": {
+									"kind": "const"
+								},
+								"formats": ["snake_case"]
+							},
+							{
+								"selector": {
+									"kind": "let"
+								},
+								"formats": ["snake_case"]
+							}
+						]
 					}
 				},
 				"useForOf": "error",
