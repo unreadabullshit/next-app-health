@@ -1,4 +1,5 @@
-import { BrowserComponent } from '@/components/ui/browser';
+import { Browser } from '@/components/ui/browser';
+import { ComboBoxResponsive } from './_components/url';
 
 interface PageProps {
 	params: Promise<{ id: string }>;
@@ -10,11 +11,15 @@ export default async function Page(props: PageProps) {
 
 	return (
 		<div className='flex h-full w-full flex-1 flex-col p-12'>
-			<BrowserComponent>
+			<Browser
+				searchBar={
+						<ComboBoxResponsive />
+				}
+			>
 				<section className={'flex h-full w-full items-center justify-center'}>
 					<h1 className={'text-base md:text-xl'}>Hi!</h1>
 				</section>
-			</BrowserComponent>
+			</Browser>
 		</div>
 	);
 }
