@@ -6,7 +6,7 @@
 		"indentStyle": "tab",
 		"indentWidth": 2,
 		"lineEnding": "lf",
-		"lineWidth": 100,
+		"lineWidth": 80,
 		"attributePosition": "auto"
 	},
 	"organizeImports": { "enabled": true },
@@ -17,7 +17,7 @@
 			"nursery": {
 				"useSortedClasses": {
 					"fix": "safe",
-					"level":"warn",
+					"level": "warn",
 					"options": {
 						"attributes": [],
 						"functions": ["cva", "cn"]
@@ -51,26 +51,7 @@
 					"options": {
 						"requireAscii": true,
 						"enumMemberCase": "CONSTANT_CASE",
-						"conventions": [
-							{
-								"selector": {
-									"kind": "objectLiteralMember"
-								},
-								"formats": ["snake_case"]
-							},
-							{
-								"selector": {
-									"kind": "const"
-								},
-								"formats": ["snake_case"]
-							},
-							{
-								"selector": {
-									"kind": "let"
-								},
-								"formats": ["snake_case"]
-							}
-						]
+						"conventions": []
 					}
 				},
 				"useForOf": "error",

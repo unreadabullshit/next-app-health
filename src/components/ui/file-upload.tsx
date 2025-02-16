@@ -3,7 +3,7 @@ import { IconUpload } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 import { DropzoneOptions, FileRejection, useDropzone } from 'react-dropzone';
 
-const main_variant = {
+const mainVariant = {
 	initial: {
 		x: 0,
 		y: 0,
@@ -15,7 +15,7 @@ const main_variant = {
 	},
 };
 
-const secondary_variant = {
+const secondaryVariant = {
 	initial: {
 		opacity: 0,
 	},
@@ -30,7 +30,12 @@ export type DropzoneProps = DropzoneOptions & {
 	className?: string;
 };
 
-export const FileUpload = ({ accepted, rejected, className, ...props }: DropzoneProps) => {
+export const FileUpload = ({
+	accepted,
+	rejected,
+	className,
+	...props
+}: DropzoneProps) => {
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
 		...props,
 	});
@@ -39,7 +44,9 @@ export const FileUpload = ({ accepted, rejected, className, ...props }: Dropzone
 		<div
 			className={cn(
 				'rounded-lg border border-dashed bg-white dark:bg-black',
-				isDragActive ? 'border-green-400' : 'border-neutral-200 dark:border-neutral-800',
+				isDragActive
+					? 'border-green-400'
+					: 'border-neutral-200 dark:border-neutral-800',
 				className
 			)}
 			{...getRootProps()}
@@ -99,7 +106,11 @@ export const FileUpload = ({ accepted, rejected, className, ...props }: Dropzone
 										{rejected?.length} files ignored
 									</motion.p>
 
-									<motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} layout>
+									<motion.p
+										initial={{ opacity: 0 }}
+										animate={{ opacity: 1 }}
+										layout
+									>
 										ignore rules
 									</motion.p>
 								</div>
@@ -108,7 +119,7 @@ export const FileUpload = ({ accepted, rejected, className, ...props }: Dropzone
 						{(accepted?.length ?? 0) + (rejected?.length ?? 0) === 0 && (
 							<motion.div
 								layoutId='file-upload'
-								variants={main_variant}
+								variants={mainVariant}
 								transition={{
 									type: 'spring',
 									stiffness: 300,
@@ -135,7 +146,7 @@ export const FileUpload = ({ accepted, rejected, className, ...props }: Dropzone
 						)}
 						{(accepted?.length ?? 0) + (rejected?.length ?? 0) === 0 && (
 							<motion.div
-								variants={secondary_variant}
+								variants={secondaryVariant}
 								className='absolute inset-0 z-30 mx-auto mt-4 flex h-32 w-full max-w-[8rem] items-center justify-center rounded-md border border-sky-400 border-dashed bg-transparent opacity-0'
 							/>
 						)}

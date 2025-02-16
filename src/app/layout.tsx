@@ -4,12 +4,12 @@ import './globals.css';
 import { Header } from '@/components/header';
 import { ThemeProvider } from '@/components/theme-provider';
 
-const geist_sans = Geist({
+const geistSans = Geist({
 	variable: '--font-geist-sans',
 	subsets: ['latin'],
 });
 
-const geist_mono = Geist_Mono({
+const geistMono = Geist_Mono({
 	variable: '--font-geist-mono',
 	subsets: ['latin'],
 });
@@ -27,7 +27,7 @@ export default function RootLayout({
 	return (
 		<html lang='en' suppressHydrationWarning>
 			<body
-				className={`${geist_sans.variable} ${geist_mono.variable} flex min-h-svh flex-col font-mono antialiased`}
+				className={`${geistSans.variable} ${geistMono.variable} flex min-h-svh flex-col font-mono antialiased`}
 			>
 				<ThemeProvider
 					attribute='class'
